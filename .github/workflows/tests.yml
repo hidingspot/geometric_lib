@@ -1,0 +1,35 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: 
+  push:
+      branches:
+        - master
+        - feat/tests
+    pull_request:
+      branches:
+        - master
+        - release
+        - develop
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    env:
+      FULL_NAME: "Мухин Вячеслав Дмитриевич"
+      GROUP_NUMBER: "М3117"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Display Information
+      - run: |
+            echo "ФИО: $FULL_NAME"
+            echo "Номер группы: $GROUP_NUMBER"
+            echo "Github nickname: ${{ github.actor }}."
+      - name: Set up Python 3.13
+          uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+       name: Check Code Style with Black
+        run: black --check . 
+      - name: Run Unit Tests
+        run: |
+          python -m unittest discover -s tests -p "test_*.py"
