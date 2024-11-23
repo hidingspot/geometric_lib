@@ -1,0 +1,51 @@
+name: tests
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+
+on: 
+  push:
+    branches:
+      - main
+      - release
+  pull_request:
+    branches:
+      - main
+      - release
+      - develop
+
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    env:
+      FULL_NAME: "Мухин Вячеслав Дмитриевич"
+      GROUP_NUMBER: "М3117"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt 
+
+      - name: Display Information
+        run: |
+          echo "ФИО: $FULL_NAME"
+          echo "Номер группы: $GROUP_NUMBER"
+          echo "Github nickname: ${{ github.actor }}."
+
+      - name: Install Black
+        run: |
+          python -m pip install --upgrade pip
+          pip install black
+
+      - name: Run Black
+        run: black --check .
+      
+      - name: Run Unit Tests
+        run: |
+          python -m unittest discover -s tests -p "test_*.py"
